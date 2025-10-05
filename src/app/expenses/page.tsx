@@ -24,23 +24,30 @@ export default function ExpensesPage() {
     const [editId, setEditId] = useState<number | null>(null);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(4); // You can make this dynamic if needed
+    const [totalPages, setTotalPages] = useState(1);
 
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
 
     // Fetch all expenses
-    const fetchExpenses = async () => {
+    const fetchExpenses = async (page: number, limit: number) => {
         if (!token) return;
 
-        const res = await fetch('/api/expenses', {
+        const res = await fetch(`/api/expenses?page=${page}&limit=${limit}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
-        if (res.ok) setExpenses(data.expenses);
+        if (res.ok) {
+            setExpenses(data.expenses);
+            setCurrentPage(data.currentPage);
+            setTotalPages(data.totalPages);
+        }
     };
 
     useEffect(() => {
-        fetchExpenses();
-    }, []);
+        fetchExpenses(currentPage, itemsPerPage);
+    }, [currentPage, itemsPerPage]);
 
     // Add expense
     const handleSubmit = async (e: React.FormEvent) => {
@@ -59,29 +66,29 @@ export default function ExpensesPage() {
 
             if (res.ok) {
                 setSuccess('Expense updated successfully!');
-                setExpenses(expenses.map(exp => exp.id === editId ? data.expense : exp));
                 setEditId(null);
                 setForm({ title: '', amount: 0, categoryId: 1, frequency: 1, isRecurring: false });
-                window.location.reload();
+                fetchExpenses(currentPage, itemsPerPage);
+                window.location.reload()
             } else {
                 setError(data.error || 'Failed to update expense');
             }
             return;
         }
-
+        
         const res = await fetch('/api/expenses/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify(form),
         });
-
+        
         const data = await res.json();
-
+        
         if (res.ok) {
-            setExpenses([data.expense, ...expenses]);
             setSuccess('Expense added successfully!');
             setForm({ title: '', amount: 0, categoryId: 1, frequency: 1, isRecurring: false });
-            window.location.reload();
+            fetchExpenses(currentPage, itemsPerPage);
+            window.location.reload()
         } else {
             setError(data.error || 'Failed to add expense');
         }
@@ -100,7 +107,7 @@ export default function ExpensesPage() {
         });
 
         if (res.ok) {
-            setExpenses(expenses.filter(exp => exp.id !== id));
+            fetchExpenses(currentPage, itemsPerPage);
         } else {
             const data = await res.json();
             alert(data.error || 'Failed to delete expense');
@@ -162,7 +169,7 @@ export default function ExpensesPage() {
                 {error && <p className="text-red-500">{error}</p>}
                 {success && <p className="text-green-500">{success}</p>}
                 <button type="submit" className="bg-blue-500 text-white rounded py-2 mt-2 hover:bg-blue-600">
-                    Add Expense
+                    {editId ? 'Update Expense' : 'Add Expense'}
                 </button>
             </form>
 
@@ -176,6 +183,7 @@ export default function ExpensesPage() {
                         <th className="border p-2">Recurring</th>
                         <th className="border p-2">Total</th>
                         <th className="border p-2">Category</th>
+                        <th className="border p-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -205,6 +213,25 @@ export default function ExpensesPage() {
                     ))}
                 </tbody>
             </table>
+
+            <div className="flex justify-center items-center gap-4 mt-4">
+                <button
+                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    disabled={currentPage === 1}
+                    className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded disabled:opacity-50"
+                >
+                    Previous
+                </button>
+                <span>Page {currentPage} of {totalPages}</span>
+                <button
+                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                    disabled={currentPage === totalPages}
+                    className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded disabled:opacity-50"
+                >
+                    Next
+                </button>
+            </div>
         </div>
     );
 }
+
