@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
         if (existingUser) {
             return NextResponse.json(
-                { error: "[route.ts] Error: Username or email already exists" },
+                { error: "[register/route.ts] Error: Username or email already exists" },
                 { status: 409 }
             );
         }
@@ -58,6 +58,6 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        return NextResponse.json({ error: "[route.ts] Error: Internal Server Error" }, { status: 500 });
+        return NextResponse.json({ error: "[register/route.ts] Error: Internal Server Error" }, { status: 500 });
     }
 }
