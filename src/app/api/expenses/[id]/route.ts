@@ -48,6 +48,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         const expense = await prisma.expense.update({
             where: { id },
             data: { ...data, total: data.amount ? (data.isRecurring ? data.amount * (data.frequency || 1) : data.amount) : undefined },
+            include: {
+                category: true
+            }
         });
 
         if (expense.userId !== userId) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });

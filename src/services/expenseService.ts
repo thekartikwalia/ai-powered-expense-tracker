@@ -28,6 +28,9 @@ export class ExpenseService {
                 ...data,
                 total,
             },
+            include: {
+                category: true
+            }
         });
 
         return expense;
