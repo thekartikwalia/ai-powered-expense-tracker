@@ -27,7 +27,7 @@
 - [x] Create User model in Prisma with fields from LLD.
 - [x] Implement registration endpoint: validate input, hash password.
 - [x] Implement login endpoint: verify password, issue JWT token.
-- [ ] Create authentication middleware to protect API routes.
+- [x] Create authentication middleware to protect API routes.
 - [ ] Build frontend pages for login and signup, integrating forms with backend.
 - [ ] Implement logout functionality and store JWT securely (cookies or localStorage).
 
