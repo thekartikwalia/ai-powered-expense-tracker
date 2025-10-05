@@ -67,6 +67,8 @@ export default function ExpensesPage() {
         fetchExpenses(currentPage, itemsPerPage);
     }, [fetchExpenses, currentPage, itemsPerPage]);
 
+    const [showFilters, setShowFilters] = useState(false);
+
     const handleApplyFilters = () => {
         setCurrentPage(1); // Reset to first page when applying filters
         fetchExpenses(1, itemsPerPage);
@@ -151,93 +153,108 @@ export default function ExpensesPage() {
 
     return (
         <div className="p-6">
-            <h2 className="text-2xl font-semibold mb-4">Add Expense</h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-2 max-w-md mb-6">
-                <input
-                    type="text"
-                    placeholder="Title"
-                    value={form.title}
-                    onChange={(e) => setForm({ ...form, title: e.target.value })}
-                    className="border p-2 rounded"
-                    required
-                />
-                <input
-                    type="number"
-                    placeholder="Amount"
-                    // value={form.amount}
-                    onChange={(e) => setForm({ ...form, amount: (e.target.value ? parseFloat(e.target.value) : 0) })}
-                    className="border p-2 rounded"
-                    required
-                />
-                <input
-                    type="number"
-                    placeholder="Frequency"
-                    // value={form.frequency}
-                    onChange={(e) => setForm({ ...form, isRecurring: (parseInt(e.target.value) > 1 ? true : false), frequency: (e.target.value ? parseInt(e.target.value) : 1) })}
-                    className="border p-2 rounded"
-                    min={1}
-                    required
-                />
-                <select
-                    value={form.categoryId}
-                    onChange={(e) => setForm({ ...form, categoryId: parseInt(e.target.value) })}
-                    className="border p-2 rounded"
-                >
-                    <option value={1}>Food</option>
-                    <option value={2}>Travel</option>
-                    <option value={3}>Rent</option>
-                    <option value={4}>Utilities</option>
-                    <option value={5}>Others</option>
-                </select>
-                {error && <p className="text-red-500">{error}</p>}
-                {success && <p className="text-green-500">{success}</p>}
-                <button type="submit" className="bg-blue-500 text-white rounded py-2 mt-2 hover:bg-blue-600">
-                    {editId ? 'Update Expense' : 'Add Expense'}
-                </button>
-            </form>
+            <div className="flex flex-col md:flex-row justify-between gap-6 mb-6">
+                <div className="w-full md:w-1/2">
+                    <h2 className="text-2xl font-semibold mb-4">Add Expense</h2>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-2 max-w-md">
+                        <input
+                            type="text"
+                            placeholder="Title"
+                            value={form.title}
+                            onChange={(e) => setForm({ ...form, title: e.target.value })}
+                            className="border p-2 rounded"
+                            required
+                        />
+                        <input
+                            type="number"
+                            placeholder="Amount"
+                            // value={form.amount}
+                            onChange={(e) => setForm({ ...form, amount: (e.target.value ? parseFloat(e.target.value) : 0) })}
+                            className="border p-2 rounded"
+                            required
+                        />
+                        <input
+                            type="number"
+                            placeholder="Frequency"
+                            // value={form.frequency}
+                            onChange={(e) => setForm({ ...form, isRecurring: (parseInt(e.target.value) > 1 ? true : false), frequency: (e.target.value ? parseInt(e.target.value) : 1) })}
+                            className="border p-2 rounded"
+                            min={1}
+                            required
+                        />
+                        <select
+                            value={form.categoryId}
+                            onChange={(e) => setForm({ ...form, categoryId: parseInt(e.target.value) })}
+                            className="border p-2 rounded"
+                        >
+                            <option value={1}>Food</option>
+                            <option value={2}>Travel</option>
+                            <option value={3}>Rent</option>
+                            <option value={4}>Utilities</option>
+                            <option value={5}>Others</option>
+                        </select>
+                        {error && <p className="text-red-500">{error}</p>}
+                        {success && <p className="text-green-500">{success}</p>}
+                        <button type="submit" className="bg-blue-500 text-white rounded py-2 mt-2 hover:bg-blue-600">
+                            {editId ? 'Update Expense' : 'Add Expense'}
+                        </button>
+                    </form>
+                </div>
 
-            <h2 className="text-2xl font-semibold mb-4">Filters</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                <input
-                    type="text"
-                    placeholder="Filter by Title"
-                    value={filterTitle}
-                    onChange={(e) => setFilterTitle(e.target.value)}
-                    className="border p-2 rounded"
-                />
-                <select
-                    value={filterCategory}
-                    onChange={(e) => setFilterCategory(e.target.value)}
-                    className="border p-2 rounded"
-                >
-                    <option value="">All Categories</option>
-                    <option value="Food">Food</option>
-                    <option value="Travel">Travel</option>
-                    <option value="Rent">Rent</option>
-                    <option value="Utilities">Utilities</option>
-                    <option value="Others">Others</option>
-                </select>
-                <input
-                    type="number"
-                    placeholder="Min Amount"
-                    value={filterMinAmount}
-                    onChange={(e) => setFilterMinAmount(e.target.value)}
-                    className="border p-2 rounded"
-                />
-                <input
-                    type="number"
-                    placeholder="Max Amount"
-                    value={filterMaxAmount}
-                    onChange={(e) => setFilterMaxAmount(e.target.value)}
-                    className="border p-2 rounded"
-                />
-
-                <button
-                    onClick={handleApplyFilters}
-                    className="bg-green-500 text-white rounded py-2 hover:bg-green-600"
-                >
-                    Apply Filters
-                </button>
+                <div className="w-full md:w-1/2">
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-2xl font-semibold text-black">Filters</h2>
+                        <button
+                            onClick={() => setShowFilters(!showFilters)}
+                            className="bg-gray-300 text-gray-800 rounded py-2 px-4 hover:bg-gray-400"
+                        >
+                            {showFilters ? 'Hide Filters' : 'Show Filters'}
+                        </button>
+                    </div>
+                    {showFilters && (
+                        <div className="grid grid-cols-1 gap-2">
+                            <input
+                                type="text"
+                                placeholder="Filter by Title"
+                                value={filterTitle}
+                                onChange={(e) => setFilterTitle(e.target.value)}
+                                className="border p-2 rounded"
+                            />
+                            <select
+                                value={filterCategory}
+                                onChange={(e) => setFilterCategory(e.target.value)}
+                                className="border p-2 rounded"
+                            >
+                                <option value="">All Categories</option>
+                                <option value="Food">Food</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Others">Others</option>
+                            </select>
+                            <input
+                                type="number"
+                                placeholder="Min Amount"
+                                value={filterMinAmount}
+                                onChange={(e) => setFilterMinAmount(e.target.value)}
+                                className="border p-2 rounded"
+                            />
+                            <input
+                                type="number"
+                                placeholder="Max Amount"
+                                value={filterMaxAmount}
+                                onChange={(e) => setFilterMaxAmount(e.target.value)}
+                                className="border p-2 rounded"
+                            />
+                            <button
+                                onClick={handleApplyFilters}
+                                className="bg-green-500 text-white rounded py-2 hover:bg-green-600"
+                            >
+                                Apply Filters
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
 
             <h2 className="text-2xl font-semibold mb-4">Expenses</h2>
@@ -285,7 +302,7 @@ export default function ExpensesPage() {
                 <button
                     onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                     disabled={currentPage === 1}
-                    className="bg-blue-500 text-white rounded py-2 mt-2 hover:bg-blue-600 disabled:opacity-50"
+                    className="bg-blue-500 text-white rounded py-2 px-2 mt-2 hover:bg-blue-600 disabled:opacity-50"
                 >
                     Previous
                 </button>
@@ -293,7 +310,7 @@ export default function ExpensesPage() {
                 <button
                     onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                     disabled={currentPage === totalPages}
-                    className="bg-blue-500 text-white rounded py-2 mt-2 hover:bg-blue-600 disabled:opacity-50"
+                    className="bg-blue-500 text-white rounded py-2 px-2 mt-2 hover:bg-blue-600 disabled:opacity-50"
                 >
                     Next
                 </button>
@@ -301,4 +318,3 @@ export default function ExpensesPage() {
         </div>
     );
 }
-
