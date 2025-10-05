@@ -12,8 +12,12 @@ export async function verifyAuth(req: NextRequest) {
         const token = authHeader.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
 
-        // Return decoded payload (user info)
-        return decoded;
+        // Ensure decoded is object
+        if (typeof decoded === 'string') {
+        return NextResponse.json({ error: 'Invalid token payload' }, { status: 403 });
+        }
+
+        return decoded; // Now guaranteed to be JwtPayload
     } catch (err) {
         (await cookies()).set('token', '', {
             httpOnly: true,
