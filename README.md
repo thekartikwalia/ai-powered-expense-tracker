@@ -33,13 +33,13 @@
 
 ### **Step 4: Expense CRUD**
 
-- [ ] Create Expense model in Prisma with fields from LLD.
-- [ ] Implement backend CRUD API routes (create, read, update, delete).
-- [ ] Validate input using zod schemas.
-- [ ] Implement ExpenseService for business logic: calculate total, assign category.
-- [ ] Build frontend Add Expense form and Expense List table.
-- [ ] Enable editing and deleting of expenses from frontend.
-- [ ] Add pagination, filtering, and search functionality.
+- [x] Create Expense model in Prisma with fields from LLD.
+- [x] Implement backend CRUD API routes (create, read, update, delete).
+- [x] Validate input using zod schemas.
+- [x] Implement ExpenseService for business logic: calculate total, assign category.
+- [x] Build frontend Add Expense form and Expense List table.
+- [x] Enable editing and deleting of expenses from frontend.
+- [x] Add pagination, filtering, and search functionality.
 
 ### **Step 5: Category Management**
 
