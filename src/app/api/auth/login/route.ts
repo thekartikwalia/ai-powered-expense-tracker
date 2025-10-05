@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from "@prisma/client";
+import { cookies } from 'next/headers';
 
 const prisma = new PrismaClient();
 
@@ -32,10 +33,18 @@ export async function POST(req: NextRequest) {
             { expiresIn: '7d' }
         );
 
-        // Send token in response
+        // Set token in HttpOnly cookie
+        (await cookies()).set('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== 'development',
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 24 * 7, // 1 week
+            path: '/',
+        });
+
+        // Send success response
         return NextResponse.json({
             message: '[login/route.ts] Login successful',
-            token,
             user: { id: user.id, email: user.email, username: user.username },
         });
     } catch (error) {

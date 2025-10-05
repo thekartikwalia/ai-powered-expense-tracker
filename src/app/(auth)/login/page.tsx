@@ -19,8 +19,6 @@ export default function LoginPage() {
         });
 
         if (res.ok) {
-            const { token } = await res.json();
-            localStorage.setItem('token', token);
             router.push('/dashboard');
         } else {
             const data = await res.json();

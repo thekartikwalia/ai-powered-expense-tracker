@@ -29,7 +29,7 @@
 - [x] Implement login endpoint: verify password, issue JWT token.
 - [x] Create authentication middleware to protect API routes.
 - [x] Build frontend pages for login and signup, integrating forms with backend.
-- [ ] Implement logout functionality and store JWT securely (cookies or localStorage).
+- [x] Implement logout functionality and store JWT securely (cookies or localStorage).
 
 ### **Step 4: Expense CRUD**
 
