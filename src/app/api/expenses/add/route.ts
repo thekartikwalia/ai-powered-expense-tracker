@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import { verifyAuth } from "@/middleware/auth";
-
-const prisma = new PrismaClient();
+import { ExpenseService } from "@/services/expenseService";
 
 const expenseSchema = z.object({
     title: z.string().min(1),
@@ -17,21 +15,14 @@ export async function POST(req: NextRequest) {
     try {
         const user = await verifyAuth(req);
         if (!user || "error" in user) return user;
-        
         const userId = (user as any).id;
 
         const body = await req.json();
         const data = expenseSchema.parse(body);
 
-        // Calculate total if recurring
-        const total = data.isRecurring ? data.amount * data.frequency : data.amount;
-
-        const expense = await prisma.expense.create({
-            data: {
-                ...data,
-                userId,
-                total,
-            },
+        const expense = await ExpenseService.createExpense({
+            ...data,
+            userId,
         });
 
         return NextResponse.json({ message: "Expense added", expense }, { status: 201 });
