@@ -14,7 +14,6 @@
 - [x] Set up TypeScript aliases and linting/formatter for clean code.
 
 ### **Step 2: Database Setup**
-
 - [x] Install and configure PostgreSQL (locally or via Docker).
 - [x] Define Prisma schema based on LLD: `User`, `Expense`, `Category`, `Report`.
 - [x] Define relationships in Prisma (1-to-many, 1-to-1).
@@ -23,7 +22,6 @@
 - [x] Test database connection with a simple Prisma client script.
 
 ### **Step 3: Authentication System**
-
 - [x] Create User model in Prisma with fields from LLD.
 - [x] Implement registration endpoint: validate input, hash password.
 - [x] Implement login endpoint: verify password, issue JWT token.
@@ -32,7 +30,6 @@
 - [x] Implement logout functionality and store JWT securely (cookies or localStorage).
 
 ### **Step 4: Expense CRUD**
-
 - [x] Create Expense model in Prisma with fields from LLD.
 - [x] Implement backend CRUD API routes (create, read, update, delete).
 - [x] Validate input using zod schemas.
@@ -41,16 +38,14 @@
 - [x] Enable editing and deleting of expenses from frontend.
 - [x] Add pagination, filtering, and search functionality.
 
-### **Step 5: Category Management**
-
+<!-- ### **Step 5: Category Management**
 - [ ] Create Category model in Prisma and establish relation with Expense.
-- [ ] Seed predefined categories (Food, Travel, Rent, Utilities, Others).
+- [x] Seed predefined categories (Food, Travel, Rent, Utilities, Others).
 - [ ] Backend: implement assignCategoryAI in ExpenseService to call AIService.
 - [ ] Frontend: show dropdown with existing categories and optional AI suggestion.
-- [ ] Ensure category changes are reflected in expenses and reports.
+- [ ] Ensure category changes are reflected in expenses and reports. -->
 
-### **Step 6: AI Integration**
-
+<!-- ### **Step 6: AI Integration**
 - [ ] Create AIService wrapper to interact with Gemini CLI.
 - [ ] Implement methods:
     * categorizeExpense
@@ -63,30 +58,27 @@
 - [ ] Handle errors and fallback logic if AI service fails.
 
 ### **Step 7: Report Generation**
-
 - [ ] Create Report model in Prisma with fields from LLD.
 - [ ] Implement ReportGenerator service: generate weekly/monthly reports.
 - [ ] Include AI-powered insights in reports: spending trends, anomalies, budget advice.
 - [ ] Implement export functionality: CSV and PDF.
 - [ ] Frontend: design dashboard page showing reports with charts and export buttons.
-- [ ] Connect report generation to backend API routes.
+- [ ] Connect report generation to backend API routes. -->
 
-### **Step 8: Frontend UI**
-
+<!-- ### **Step 8: Frontend UI**
 - [ ] Use Shadcn UI or Tailwind for consistent design system.
 - [ ] Build pages: Login, Signup, Dashboard, Add Expense, Expense List, Reports.
 - [ ] Connect frontend forms and components to backend API routes.
 - [ ] Display AI-generated insights visually: pie charts, bar charts, text summaries, alerts.
 - [ ] Ensure responsive design and accessibility.
-- [ ] Implement state management (React Context or Zustand) for user sessions and data.
+- [ ] Implement state management (React Context or Zustand) for user sessions and data. -->
 
-### **Step 9: Testing**
-
+<!-- ### **Step 9: Testing**
 - [ ] Write unit tests for services: ExpenseService, AIService, ReportGenerator.
 - [ ] Write integration tests for API routes using Supertest or Axios.
 - [ ] Test AI responses with mock data to ensure reliability.
 - [ ] Test frontend components: forms, tables, dashboards.
-- [ ] Fix bugs and verify end-to-end functionality.
+- [ ] Fix bugs and verify end-to-end functionality. -->
 
 ### **Step 10: Deployment**
 
@@ -101,7 +93,6 @@
 
 - [ ] Create `/docs/` folder in project root.
 - [ ] Document AI prompts and expected responses.
-- [ ] Include architecture diagrams, Mermaid LLD diagram, and system overview.
+- [x] Include architecture diagrams, Mermaid LLD diagram, and system overview.
 - [ ] Document API endpoints: request/response formats.
 - [ ] Write README with project overview, features, setup instructions, and usage.
-- [ ] Prepare screenshots and demo instructions for submission or presentation.
