@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 type Expense = {
     id: number;
@@ -28,13 +28,31 @@ export default function ExpensesPage() {
     const [itemsPerPage] = useState(4); // You can make this dynamic if needed
     const [totalPages, setTotalPages] = useState(1);
 
+    // Filter states
+    const [filterTitle, setFilterTitle] = useState('');
+    const [filterCategory, setFilterCategory] = useState('');
+    const [filterMinAmount, setFilterMinAmount] = useState('');
+    const [filterMaxAmount, setFilterMaxAmount] = useState('');
+
+
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
 
     // Fetch all expenses
-    const fetchExpenses = async (page: number, limit: number) => {
+    const fetchExpenses = useCallback(async (page: number, limit: number) => {
         if (!token) return;
 
-        const res = await fetch(`/api/expenses?page=${page}&limit=${limit}`, {
+        const params = new URLSearchParams({
+            page: page.toString(),
+            limit: limit.toString(),
+        });
+
+        if (filterTitle) params.append('title', filterTitle);
+        if (filterCategory) params.append('category', filterCategory);
+        if (filterMinAmount) params.append('minAmount', filterMinAmount);
+        if (filterMaxAmount) params.append('maxAmount', filterMaxAmount);
+
+
+        const res = await fetch(`/api/expenses?${params.toString()}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -43,11 +61,16 @@ export default function ExpensesPage() {
             setCurrentPage(data.currentPage);
             setTotalPages(data.totalPages);
         }
-    };
+    }, [token, filterTitle, filterCategory, filterMinAmount, filterMaxAmount]);
 
     useEffect(() => {
         fetchExpenses(currentPage, itemsPerPage);
-    }, [currentPage, itemsPerPage]);
+    }, [fetchExpenses, currentPage, itemsPerPage]);
+
+    const handleApplyFilters = () => {
+        setCurrentPage(1); // Reset to first page when applying filters
+        fetchExpenses(1, itemsPerPage);
+    };
 
     // Add expense
     const handleSubmit = async (e: React.FormEvent) => {
@@ -173,6 +196,50 @@ export default function ExpensesPage() {
                 </button>
             </form>
 
+            <h2 className="text-2xl font-semibold mb-4">Filters</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <input
+                    type="text"
+                    placeholder="Filter by Title"
+                    value={filterTitle}
+                    onChange={(e) => setFilterTitle(e.target.value)}
+                    className="border p-2 rounded"
+                />
+                <select
+                    value={filterCategory}
+                    onChange={(e) => setFilterCategory(e.target.value)}
+                    className="border p-2 rounded"
+                >
+                    <option value="">All Categories</option>
+                    <option value="Food">Food</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Others">Others</option>
+                </select>
+                <input
+                    type="number"
+                    placeholder="Min Amount"
+                    value={filterMinAmount}
+                    onChange={(e) => setFilterMinAmount(e.target.value)}
+                    className="border p-2 rounded"
+                />
+                <input
+                    type="number"
+                    placeholder="Max Amount"
+                    value={filterMaxAmount}
+                    onChange={(e) => setFilterMaxAmount(e.target.value)}
+                    className="border p-2 rounded"
+                />
+
+                <button
+                    onClick={handleApplyFilters}
+                    className="bg-green-500 text-white rounded py-2 hover:bg-green-600"
+                >
+                    Apply Filters
+                </button>
+            </div>
+
             <h2 className="text-2xl font-semibold mb-4">Expenses</h2>
             <table className="border-collapse border border-gray-300 w-full">
                 <thead>
@@ -218,7 +285,7 @@ export default function ExpensesPage() {
                 <button
                     onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                     disabled={currentPage === 1}
-                    className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded disabled:opacity-50"
+                    className="bg-blue-500 text-white rounded py-2 mt-2 hover:bg-blue-600 disabled:opacity-50"
                 >
                     Previous
                 </button>
@@ -226,7 +293,7 @@ export default function ExpensesPage() {
                 <button
                     onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                     disabled={currentPage === totalPages}
-                    className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded disabled:opacity-50"
+                    className="bg-blue-500 text-white rounded py-2 mt-2 hover:bg-blue-600 disabled:opacity-50"
                 >
                     Next
                 </button>
