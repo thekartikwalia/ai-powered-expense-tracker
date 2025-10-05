@@ -9,7 +9,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "seed": "tsx src/prisma/seed.ts"
+    "seed": "tsx src/prisma/seed.ts",
+    "test-db": "tsx src/utils/testDbConnection.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",

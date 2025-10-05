@@ -20,7 +20,7 @@
 - [x] Define relationships in Prisma (1-to-many, 1-to-1).
 - [x] Run Prisma migrations to create tables in PostgreSQL.
 - [x] Seed initial data for categories and optional demo users.
-- [ ] Test database connection with a simple Prisma client script.
+- [x] Test database connection with a simple Prisma client script.
 
 ### **Step 3: Authentication System**
 
