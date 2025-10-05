@@ -24,8 +24,8 @@
 
 ### **Step 3: Authentication System**
 
-- [ ] Create User model in Prisma with fields from LLD.
-- [ ] Implement registration endpoint: validate input, hash password.
+- [x] Create User model in Prisma with fields from LLD.
+- [x] Implement registration endpoint: validate input, hash password.
 - [ ] Implement login endpoint: verify password, issue JWT token.
 - [ ] Create authentication middleware to protect API routes.
 - [ ] Build frontend pages for login and signup, integrating forms with backend.
