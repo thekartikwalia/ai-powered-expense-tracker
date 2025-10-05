@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
         // Send success response
         return NextResponse.json({
             message: '[login/route.ts] Login successful',
+            token,
             user: { id: user.id, email: user.email, username: user.username },
         });
     } catch (error) {
