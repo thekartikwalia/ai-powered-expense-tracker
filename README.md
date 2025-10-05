@@ -6,10 +6,10 @@
 ## Project Development Steps Overview
 
 ### **Step 1: Project Setup**
-- [ ] Decide project structure (monolithic: frontend + backend in same repo).
+- [x] Decide project structure (monolithic: frontend + backend in same repo).
 - [x] Initialise a Next.js project with TypeScript support.
 - [x] Install all required dependencies (Prisma, PostgreSQL driver, zod, shadcn UI, etc.).
-- [ ] Set up project folder structure: `pages/`, `components/`, `services/`, `prisma/`, `utils/`.
+- [x] Set up project folder structure: `app/`, `components/`, `services/`, `prisma/`, `utils/`.
 - [ ] Configure `.env` for database, Gemini CLI path, API keys, JWT secret.
 - [ ] Set up TypeScript aliases and linting/formatter for clean code.
 
