@@ -1,4 +1,4 @@
-# AI-Powered Expense Tracker
+# Expense Tracker
 
 ## LLD Design
 ![UML Diagram](./UML-Diagram.png)
