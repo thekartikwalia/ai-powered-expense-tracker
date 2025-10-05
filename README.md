@@ -39,7 +39,7 @@
 - [x] Implement ExpenseService for business logic: calculate total, assign category.
 - [x] Build frontend Add Expense form and Expense List table.
 - [x] Enable editing and deleting of expenses from frontend.
-- [ ] Add pagination, filtering, and search functionality.
+- [x] Add pagination, filtering, and search functionality.
 
 ### **Step 5: Category Management**
 
