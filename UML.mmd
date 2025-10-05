@@ -1,0 +1,82 @@
+classDiagram
+    %% Classes
+    class User {
+        +int userId
+        +string username
+        +string passwordHash
+        +string email
+        +bool authenticate(password)
+        +Expense[] getExpenses()
+        +Expense addExpense(ExpenseInput exp)
+        +void updateProfile(UserUpdate data)
+    }
+
+    class Expense {
+        +int expenseId
+        +int userId
+        +string title
+        +Category category
+        +float amount
+        +int frequency
+        +bool isRecurring
+        +float total
+        +Date createdAt
+        +Date updatedAt
+        +float calculateTotal()
+        +void updateCategory(Category newCat)
+        +string getSummary()
+    }
+
+    class Category {
+        +int categoryId
+        +string name
+        +string description
+        +Expense[] expenses
+    }
+
+    class ExpenseService {
+        +Expense createExpense(ExpenseInput data)
+        +Expense getExpense(int id)
+        +Expense updateExpense(int id, ExpenseUpdate data)
+        +bool deleteExpense(int id)
+        +Expense[] filterExpenses(FilterInput filterObj)
+        +Expense[] paginateExpenses(int page, int limit)
+        +Category assignCategoryAI(string rawText)
+    }
+
+    class Report {
+        +int reportId
+        +int userId
+        +Date startDate
+        +Date endDate
+        +string summary
+        +File exportCSV()
+        +File exportPDF()
+    }
+
+    class ReportGenerator {
+        +Report generateMonthlyReport(int userId)
+        +Report generateWeeklyReport(int userId)
+        +File exportCSV(Report report)
+        +File exportPDF(Report report)
+    }
+
+    class AIService {
+        -string geminiCLIPath
+        -string apiKey
+        +Category categorizeExpense(string rawText)
+        +string analyzeSpending(Expense[] expenses)
+        +string generateBudgetAdvice(Expense[] expenses)
+        +string detectAnomalies(Expense[] expenses)
+        +string summarizeExpenses(Expense[] expenses)
+    }
+
+    %% Relationships with types
+    User "1" --> "*" Expense : owns
+    Expense "1" --> "1" Category : belongs to
+    Category "1" --> "*" Expense : has
+    ExpenseService "1" --> "1" Expense : manages
+    ExpenseService "1" --> "1" AIService : uses
+    ReportGenerator "1" --> "*" Report : generates
+    ReportGenerator "1" --> "1" AIService : calls
+    Report "1" --> "1" User : belongs to
