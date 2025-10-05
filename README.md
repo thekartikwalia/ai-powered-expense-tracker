@@ -15,12 +15,12 @@
 
 ### **Step 2: Database Setup**
 
-- [ ] Install and configure PostgreSQL (locally or via Docker).
-- [ ] Define Prisma schema based on LLD: `User`, `Expense`, `Category`, `Report`.
-- [ ] Define relationships in Prisma (1-to-many, 1-to-1).
-- [ ] Run Prisma migrations to create tables in PostgreSQL.
-- [ ] Seed initial data for categories and optional demo users.
-- [ ] Test database connection with a simple Prisma client script.
+- [x] Install and configure PostgreSQL (locally or via Docker).
+- [x] Define Prisma schema based on LLD: `User`, `Expense`, `Category`, `Report`.
+- [x] Define relationships in Prisma (1-to-many, 1-to-1).
+- [x] Run Prisma migrations to create tables in PostgreSQL.
+- [x] Seed initial data for categories and optional demo users.
+- [x] Test database connection with a simple Prisma client script.
 
 ### **Step 3: Authentication System**
 
