@@ -34,6 +34,10 @@ export default function ExpensesPage() {
     const [filterMinAmount, setFilterMinAmount] = useState('');
     const [filterMaxAmount, setFilterMaxAmount] = useState('');
 
+    // Sorting states
+    const [sortKey, setSortKey] = useState<keyof Expense | 'category.name'>('id'); // Default sort by id
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc'); // Default ascending
+
 
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
 
@@ -119,7 +123,39 @@ export default function ExpensesPage() {
         }
     };
 
-    console.log(expenses);
+    const handleSort = (key: keyof Expense | 'category.name') => {
+        if (sortKey === key) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortKey(key);
+            setSortOrder('asc');
+        }
+    };
+
+    const sortedExpenses = [...expenses].sort((a, b) => {
+        let aValue: any;
+        let bValue: any;
+
+        if (sortKey === 'category.name') {
+            aValue = a.category.name;
+            bValue = b.category.name;
+        } else {
+            aValue = a[sortKey as keyof Expense];
+            bValue = b[sortKey as keyof Expense];
+        }
+
+        if (typeof aValue === 'number' && typeof bValue === 'number') {
+            return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
+        }
+        if (typeof aValue === 'string' && typeof bValue === 'string') {
+            return sortOrder === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+        }
+        if (typeof aValue === 'boolean' && typeof bValue === 'boolean') {
+            return sortOrder === 'asc' ? (aValue === bValue ? 0 : aValue ? -1 : 1) : (aValue === bValue ? 0 : aValue ? 1 : -1);
+        }
+        // Fallback for other types or if types are mixed
+        return 0;
+    });
 
     // Delete expense
     const handleDelete = async (id: number) => {
@@ -261,17 +297,29 @@ export default function ExpensesPage() {
             <table className="border-collapse border border-gray-300 w-full">
                 <thead>
                     <tr>
-                        <th className="border p-2">Title</th>
-                        <th className="border p-2">Amount</th>
-                        <th className="border p-2">Frequency</th>
-                        <th className="border p-2">Recurring</th>
-                        <th className="border p-2">Total</th>
-                        <th className="border p-2">Category</th>
+                        <th className="border p-2 cursor-pointer" onClick={() => handleSort('title')}>
+                            Title {sortKey === 'title' && (sortOrder === 'asc' ? '↑' : '↓')}
+                        </th>
+                        <th className="border p-2 cursor-pointer" onClick={() => handleSort('amount')}>
+                            Amount {sortKey === 'amount' && (sortOrder === 'asc' ? '↑' : '↓')}
+                        </th>
+                        <th className="border p-2 cursor-pointer" onClick={() => handleSort('frequency')}>
+                            Frequency {sortKey === 'frequency' && (sortOrder === 'asc' ? '↑' : '↓')}
+                        </th>
+                        <th className="border p-2 cursor-pointer" onClick={() => handleSort('isRecurring')}>
+                            Recurring {sortKey === 'isRecurring' && (sortOrder === 'asc' ? '↑' : '↓')}
+                        </th>
+                        <th className="border p-2 cursor-pointer" onClick={() => handleSort('total')}>
+                            Total {sortKey === 'total' && (sortOrder === 'asc' ? '↑' : '↓')}
+                        </th>
+                        <th className="border p-2 cursor-pointer" onClick={() => handleSort('category.name')}>
+                            Category {sortKey === 'category.name' && (sortOrder === 'asc' ? '↑' : '↓')}
+                        </th>
                         <th className="border p-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {expenses.map((exp) => (
+                    {sortedExpenses.map((exp) => (
                         <tr key={exp.id}>
                             <td className="border p-2">{exp.title}</td>
                             <td className="border p-2">{exp.amount}</td>
