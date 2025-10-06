@@ -1,8 +1,5 @@
 # Expense Tracker
 
-## LLD Design
-![UML Diagram](./UML-Diagram.png)
-
 ## Project Development Steps Overview
 
 ### **Step 1: Project Setup**
@@ -83,8 +80,8 @@
 ### **Step 10: Deployment**
 
 - [ ] Prepare production build of Next.js app.
-- [ ] Connect to managed PostgreSQL instance (Supabase, Railway, AWS RDS).
-- [ ] Configure environment variables securely for production.
+- [x] Connect to managed PostgreSQL instance over Render.
+- [x] Configure environment variables securely for production.
 - [ ] Deploy app on Vercel or Render.
 - [ ] Optional: Set up GitHub Actions for CI/CD automation.
 - [ ] Test live app for correctness and performance.
@@ -96,3 +93,7 @@
 - [x] Include architecture diagrams, Mermaid LLD diagram, and system overview.
 - [ ] Document API endpoints: request/response formats.
 - [ ] Write README with project overview, features, setup instructions, and usage.
+
+
+## LLD Design
+![UML Diagram](./UML-Diagram.png)
