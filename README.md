@@ -77,6 +77,8 @@ For detailed information on API endpoints, please refer to [API Endpoints Docume
 
 ## Project Development Steps Overview
 
-For a detailed overview of the project development steps, please refer to [Development Steps Documentation](./docs/development-steps.md).## LLD Design
+For a detailed overview of the project development steps, please refer to [Development Steps Documentation](./docs/development-steps.md).
+
+## LLD Design
 
 For the Low-Level Design (LLD) of the project, please refer to [LLD Design Documentation](./docs/lld-design.md).

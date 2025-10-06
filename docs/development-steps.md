@@ -86,7 +86,7 @@
 
 ### **Step 11: Documentation**
 
-- [ ] Create `/docs/` folder in project root.
+- [x] Create `/docs/` folder in project root.
 - [x] Include architecture diagrams, Mermaid LLD diagram, and system overview.
 - [x] Document API endpoints: request/response formats.
 - [x] Write README with project overview, features, setup instructions, and usage.
