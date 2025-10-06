@@ -7,24 +7,24 @@ const prisma = new PrismaClient();
 export async function GET(req: NextRequest) {
   try {
     const user = await verifyAuth(req);
-    if (!user || "error" in user) return user;
+    if (!user || "error" in user) return NextResponse.json({ status: 401 });
     const userId = (user as any).id;
-    console.log(userId)
-  
+    console.log(userId);
+
     const { searchParams } = new URL(req.url);
-    const page = parseInt(searchParams.get('page') || '1', 10);
-    const limit = parseInt(searchParams.get('limit') || '10', 10);
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "10", 10);
     const skip = (page - 1) * limit;
 
-    const title = searchParams.get('title');
-    const category = searchParams.get('category');
-    const minAmount = searchParams.get('minAmount');
-    const maxAmount = searchParams.get('maxAmount');
+    const title = searchParams.get("title");
+    const category = searchParams.get("category");
+    const minAmount = searchParams.get("minAmount");
+    const maxAmount = searchParams.get("maxAmount");
 
     const where: any = { userId };
 
     if (title) {
-      where.title = { contains: title, mode: 'insensitive' };
+      where.title = { contains: title, mode: "insensitive" };
     }
     if (category) {
       where.category = { name: category };
@@ -35,7 +35,6 @@ export async function GET(req: NextRequest) {
     if (maxAmount) {
       where.amount = { ...where.amount, lte: parseFloat(maxAmount) };
     }
-
 
     const [expenses, totalExpenses] = await prisma.$transaction([
       prisma.expense.findMany({
@@ -59,6 +58,9 @@ export async function GET(req: NextRequest) {
       totalPages: Math.ceil(totalExpenses / limit),
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Failed to fetch expenses" }, { status: 400 });
+    return NextResponse.json(
+      { error: err.message || "Failed to fetch expenses" },
+      { status: 400 }
+    );
   }
 }
