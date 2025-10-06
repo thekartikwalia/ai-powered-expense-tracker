@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
     const user = await verifyAuth(req);
     if (!user || "error" in user) return user;
     const userId = (user as any).id;
+    console.log(userId)
   
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get('page') || '1', 10);
@@ -19,7 +20,6 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get('category');
     const minAmount = searchParams.get('minAmount');
     const maxAmount = searchParams.get('maxAmount');
-
 
     const where: any = { userId };
 
@@ -49,6 +49,8 @@ export async function GET(req: NextRequest) {
         where,
       }),
     ]);
+
+    console.log(expenses);
 
     return NextResponse.json({
       expenses,
