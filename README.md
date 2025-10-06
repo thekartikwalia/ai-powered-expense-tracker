@@ -6,10 +6,16 @@ The Expense Tracker is a full-stack application designed to help users manage th
 
 ## Features
 
-*   User Authentication (Register, Login, Logout)
-*   Add new expenses with details like amount, category, and date.
-*   View a list of all recorded expenses.
-*   Retrieve, update, and delete individual expense records.
+- User authentication (signup, login, logout)
+- Add, view, edit, and delete expenses
+- Filter expenses by category, date, and amount
+- Dashboard with expense summaries and charts
+- Responsive design for various devices
+
+## Live Demo
+
+- Live Link: [https://expense-tracker-qbgb.onrender.com](https://expense-tracker-qbgb.onrender.com)
+- Demo Video: [https://drive.google.com/file/d/1gKRygpEPnTK3emgHO3kSXU76fzmFJ0BP/view?usp=sharing](https://drive.google.com/file/d/1gKRygpEPnTK3emgHO3kSXU76fzmFJ0BP/view?usp=sharing)
 
 ## Getting Started
 
